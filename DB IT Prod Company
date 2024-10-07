@@ -1,0 +1,137 @@
+Task {
+	task_ID integer pk increments unique
+	task_description varchar(200)
+	start_date date
+	end_date date
+	project_ID integer >* Project.project_ID
+}
+
+Project {
+	project_ID integer pk increments unique
+	project_name integer
+	start_date date
+	end_date date
+	budget decimal
+	product_ID integer >* Product.product_ID
+}
+
+Product {
+	product_ID integer pk increments unique
+	product_name varchar(30)
+	release_date date
+}
+
+Person {
+	person_ID integer pk increments unique
+	first_name varchar(30)
+	last_name varchar(30)
+	birth_date date
+	phone_number varchar(16) unique
+	email varchar unique
+}
+
+Investor {
+	investor_ID integer pk increments unique
+	person_ID integer > Person.person_ID
+	investor_type varchar(30)
+	investment_amount decimal
+}
+
+Customer {
+	customer_ID integer pk increments unique
+	person_ID integer > Person.person_ID
+}
+
+Customer_review {
+	review_ID integer pk increments unique
+	customer_ID integer >* Customer.customer_ID
+	rating decimal(1)
+	review_date date
+}
+
+Agreement {
+	agreement_ID integer pk increments unique
+	agreement_type varchar(30)
+	features varchar(200)
+	product_ID integer >* Product.product_ID
+}
+
+Account {
+	account_ID integer pk increments unique
+	customer_ID integer >* Customer.customer_ID
+	amount decimal
+	due_date date
+	status boolean
+}
+
+Payment {
+	payment_ID integer pk increments unique
+	account_ID integer > Account.account_ID
+	amount_paid decimal
+	payment_date date
+}
+
+Order {
+	order_ID integer pk increments unique
+	customer_ID integer >* Customer.customer_ID
+	product_ID integer > null.id
+	order_date date
+	amount decimal
+}
+
+Employee {
+	employee_ID integer pk increments unique
+	person_ID integer > Person.person_ID
+	role_ID integer >* Role.role_ID
+	skill_ID integer *>* Skill.skill_ID
+	certification_ID integer *>* Certification.certification_ID
+	department_ID integer *> Department.department_ID
+	team_ID integer >* Team.team_ID
+}
+
+Skill {
+	skill_ID integer pk increments unique
+	skill_name varchar(30)
+	skill_level varchar(30)
+}
+
+Role {
+	role_ID integer pk increments unique
+	role_name varchar(30)
+	role_description varchar(200)
+	role_status boolean
+}
+
+Certification {
+	certification_ID integer pk increments unique
+	issue_date date
+	certification_name varchar(60)
+}
+
+Department {
+	department_ID integer pk increments unique
+	department_name varchar(30)
+	address_ID integer *>* Address.address_ID
+}
+
+Address {
+	address_ID integer pk increments unique
+	country varchar(30)
+	state varchar(30)
+	sity varchar(30)
+	street varchar(60)
+	building_no varchar(5)
+}
+
+Team {
+	team_ID integer pk increments unique
+	team_name varchar(30)
+	member_count int(6)
+}
+
+Employee_task {
+	employee_task_ID integer pk increments unique
+	employee_ID integer *>* Employee.employee_ID
+	task_ID integer *>* Task.task_ID
+}
+
